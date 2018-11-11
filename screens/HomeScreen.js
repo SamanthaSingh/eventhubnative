@@ -29,7 +29,7 @@ class HomeScreen extends React.Component {
         </ScrollView>
         <FloatingAction
         actions={actions}
-        onPressItem={() => this.props.navigation.navigate('AppStack')}
+        onPressItem={() => this.props.navigation.navigate('App')}
       />
       </View>
     );

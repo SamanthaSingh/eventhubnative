@@ -2,11 +2,20 @@ import React from 'react';
 import {BackHandler, ScrollView, StyleSheet, Text, TouchableOpacity, TextInput, Button } from 'react-native';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import RNPickerSelect from 'react-native-picker-select';
+import {HeaderBackButton} from "react-navigation";
+import HomeScreen from './HomeScreen';
 
 export default class CreateEvent extends React.Component {
-  static navigationOptions = {
-    title: 'Create Event',
-  };
+//   static navigationOptions = {
+//     title: 'Create Event',
+//   };
+
+static navigationOptions = ({navigation}) => {
+    return{
+      headerLeft:(<HeaderBackButton onPress={()=>{navigation.navigate('Main')}}/>)
+   }
+  }
+  
 
   constructor(props) {
         super(props);
@@ -65,7 +74,7 @@ export default class CreateEvent extends React.Component {
   render() {
     return (
       <ScrollView style={styles.container}>
-        <TextInput placeholder={'Event Title'} style={styles.input} />
+      <TextInput placeholder={'Event Title'} style={styles.input} />
         <TextInput placeholder={'Event Location'} style={styles.input} />
         <TextInput placeholder={'Event Address'} style={styles.input} />
         <TouchableOpacity onPress={this._showDateTimePicker}>
