@@ -1,12 +1,11 @@
 import React from 'react';
 import { Platform, View, StyleSheet, StatusBar } from 'react-native';
-
 import Amplify, { Auth } from 'aws-amplify'
 import AWSConfig from './aws-exports'
-Amplify.configure(AWSConfig)
 import AppNavigator from './navigation/AppNavigator'
 import Tabs from './Tabs'
-import Routes from './Routes';
+
+Amplify.configure(AWSConfig)
 
 
 export default class App extends React.Component {

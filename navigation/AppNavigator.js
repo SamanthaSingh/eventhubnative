@@ -1,27 +1,29 @@
-import React from 'react';
 import { createSwitchNavigator } from 'react-navigation';
 
 import MainTabNavigator from './MainTabNavigator';
 import { createStackNavigator } from 'react-navigation';
 import CreateEvent from '../screens/CreateEvent';
-import { StackNavigator, SwitchNavigator } from 'react-navigation'; // 1.3.0
+import EventDetails from '../screens/EventDetails';
 
 
 
 
 const AppStack = createStackNavigator({ CreateEvent: CreateEvent}, {Main:MainTabNavigator});
+const AppStack2 = createStackNavigator({ EventDetails: EventDetails}, {Main:MainTabNavigator});
+
 
 // export default createSwitchNavigator({
 //   Main: MainTabNavigator,
 //   AppStack: AppStack
 // });
 
-export default SwitchNavigator(
+export default createSwitchNavigator(
   {
     Main: MainTabNavigator,
     App: AppStack,
+    App2: AppStack2
   },
-  {
-    initialRouteName: 'Main',
-  }
+  // {
+  //   initialRouteName: 'Main',
+  // }
 );
