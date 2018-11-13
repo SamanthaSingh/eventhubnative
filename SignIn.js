@@ -1,5 +1,5 @@
 import React from 'react';
-import { AppRegistry ,Image, TouchableOpacity, TextInput, StyleSheet, Text, View } from 'react-native';
+import { AsyncStorage, AppRegistry ,Image, TouchableOpacity, TextInput, StyleSheet, Text, View } from 'react-native';
 
 
 import { Auth } from 'aws-amplify'
@@ -15,12 +15,22 @@ export default class App extends React.Component {
       [key]: value
     })
   }
+
+  _storeData = async (username) => {
+    try {
+      await AsyncStorage.setItem('email', (username.toString()));
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   signIn() {
     // const { username, password } = this.state
     // Auth.signIn(username, password)
     // .then(user => {
     //   this.setState({ user })
     //   console.log('successful sign in!')
+    this._storeData(this.state.username);
       this.props.screenProps.authenticate(true)
   
     // })
