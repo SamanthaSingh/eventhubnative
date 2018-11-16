@@ -25,7 +25,8 @@ class HomeScreen extends React.Component {
     super(props);
     this.state = {
       date: new Date(),
-      event_list: []
+      event_list: [],
+      email: ''
     }
 
     this.loadEvents = this.loadEvents.bind(this);
@@ -34,11 +35,34 @@ class HomeScreen extends React.Component {
   }
 
   loadEvents() {
-    axios.get(`https://us-central1-testingexpress-216900.cloudfunctions.net/test/api/displayEvents/${this.state.date}`)
+    let data = {
+      date: this.state.date,
+      email : this.state.email,
+    }
+
+    axios.post(`https://us-central1-testingexpress-216900.cloudfunctions.net/test/api/displayEvents`, { data })
       .then(res => {
-        this.setState({ event_list: res.data })
+        console.log(res.data);
+        this.setState({event_list: res.data});
       })
-      .catch(err => console.log(err));
+    .catch((error) => {
+      console.log(error);
+    });
+   
+  }
+
+  _retrieveData = async () => {
+    try {
+      const value = await AsyncStorage.getItem('email');
+      if (value !== null) {
+        // We have data!!
+        console.log('VALUE OF EVENTID', value);
+        this.setState({email: value}, function() {
+        });
+      }
+     } catch (error) {
+       console.log(error)
+     }
   }
 
   _storeData = async (eventId) => {
@@ -59,6 +83,7 @@ class HomeScreen extends React.Component {
   }
   
   componentDidMount() {
+    this._retrieveData();
     let month = '' + (this.state.date.getMonth() + 1);
     let day = '' + this.state.date.getDate();
     let year = this.state.date.getFullYear();
@@ -70,13 +95,20 @@ class HomeScreen extends React.Component {
 
     console.log(this.state.date);
     console.log(formattedDate);
-    axios.get(`https://us-central1-testingexpress-216900.cloudfunctions.net/test/api/displayEvents/${formattedDate}`)
-      .then(res => {
-        this.setState({ event_list: res.data })
-      })
-      .catch(err => console.log(err));
-  }
+    let data = {
+      date: formattedDate,
+      email : this.state.email,
+    }
 
+    axios.post(`https://us-central1-testingexpress-216900.cloudfunctions.net/test/api/displayEvents`, { data })
+      .then(res => {
+        console.log(res.data);
+        this.setState({event_list: res.data});
+      })
+    .catch((error) => {
+      console.log(error);
+    });
+  }
   render() {
     console.log(this.state.event_list);
     return (

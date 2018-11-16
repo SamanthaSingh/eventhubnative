@@ -4,7 +4,9 @@ import Amplify, { Auth } from 'aws-amplify'
 import AWSConfig from './aws-exports'
 import AppNavigator from './navigation/AppNavigator'
 import Tabs from './Tabs'
+import Config from 'react-native-config'
 
+console.log(Config.REACT_APP_S3_SECRET_ACCESS_KEY);
 Amplify.configure(AWSConfig)
 
 
