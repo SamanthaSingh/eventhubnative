@@ -58,6 +58,30 @@ class HomeScreen extends React.Component {
         // We have data!!
         console.log('VALUE OF EVENTID', value);
         this.setState({email: value}, function() {
+          let month = '' + (this.state.date.getMonth() + 1);
+    let day = '' + this.state.date.getDate();
+    let year = this.state.date.getFullYear();
+
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+
+    let formattedDate = ([year, month, day].join('-'));
+
+    console.log(this.state.date);
+    console.log(formattedDate);
+    let data = {
+      date: formattedDate,
+      email : this.state.email,
+    }
+
+    axios.post(`https://us-central1-testingexpress-216900.cloudfunctions.net/test/api/displayEvents`, { data })
+      .then(res => {
+        console.log(res.data);
+        this.setState({event_list: res.data});
+      })
+    .catch((error) => {
+      console.log(error);
+    });
         });
       }
      } catch (error) {
@@ -84,30 +108,7 @@ class HomeScreen extends React.Component {
   
   componentDidMount() {
     this._retrieveData();
-    let month = '' + (this.state.date.getMonth() + 1);
-    let day = '' + this.state.date.getDate();
-    let year = this.state.date.getFullYear();
-
-    if (month.length < 2) month = '0' + month;
-    if (day.length < 2) day = '0' + day;
-
-    let formattedDate = ([year, month, day].join('-'));
-
-    console.log(this.state.date);
-    console.log(formattedDate);
-    let data = {
-      date: formattedDate,
-      email : this.state.email,
-    }
-
-    axios.post(`https://us-central1-testingexpress-216900.cloudfunctions.net/test/api/displayEvents`, { data })
-      .then(res => {
-        console.log(res.data);
-        this.setState({event_list: res.data});
-      })
-    .catch((error) => {
-      console.log(error);
-    });
+    
   }
   render() {
     console.log(this.state.event_list);
