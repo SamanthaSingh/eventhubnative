@@ -2,6 +2,10 @@ import React from 'react';
 import { AsyncStorage, Image, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { HeaderBackButton } from "react-navigation";
 import axios from 'axios';
+import Geocoder from 'react-native-geocoding';
+
+Geocoder.init('undefined');
+
 
 
 export default class DiscoverNow extends React.Component {
@@ -25,7 +29,16 @@ export default class DiscoverNow extends React.Component {
     loadEvent() {
         axios.get(`https://us-central1-testingexpress-216900.cloudfunctions.net/test/api/displayEvent/${this.state.eventId}`)
       .then(res => {
-        this.setState({ event_list: res.data })
+        this.setState({ event_list: res.data }, function() {
+          let address = this.state.event_list[0].eventAddress + " " + this.state.event_list[0].eventLocation;
+          Geocoder.from(address)
+        .then(json => {
+            var location = json.results[0].geometry.location;
+            console.log(location);
+        })
+        .catch(error => console.warn(error));
+
+        });
         console.log(res.data);
       })
       .catch(err => console.log(err));
