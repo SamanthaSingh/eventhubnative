@@ -5,7 +5,7 @@ import axios from 'axios';
 import Geocoder from 'react-native-geocoding';
 
 Geocoder.init('undefined');
-
+//Enter the google api key.
 
 
 export default class DiscoverNow extends React.Component {
@@ -30,7 +30,9 @@ export default class DiscoverNow extends React.Component {
         axios.get(`https://us-central1-testingexpress-216900.cloudfunctions.net/test/api/displayEvent/${this.state.eventId}`)
       .then(res => {
         this.setState({ event_list: res.data }, function() {
+          //concatinating address and location to get geolocation.
           let address = this.state.event_list[0].eventAddress + " " + this.state.event_list[0].eventLocation;
+          //converting location to lat and long
           Geocoder.from(address)
         .then(json => {
             var location = json.results[0].geometry.location;
